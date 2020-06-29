@@ -1,0 +1,28 @@
+<style>
+    .bullet ul { list-style: none;}
+    a{
+        text-decoration: none;
+    }
+</style>
+<div id="jawaban">
+    <p class="text-test">Ujian</p>
+    <p class="text-test">Pekanan</p>
+    <p class="text-test">SanberCode</p>
+</div>
+<div id="coba">SanberCode</div>
+<div class="bullet">
+    <ul>
+        <li>apel</li>
+        <li>apel2</li>
+        <li>apel3</li>
+    </ul>
+</div>
+<a href="#">Test</a>
+<script>
+    document.getElementsByClassName("text-test")[1].innerHTML = "Quiz 1"
+
+    var kata = document.getElementById("coba").innerText
+    var baru = kata.substring(6,10)
+    document.getElementById("coba").innerHTML = baru
+
+</script>

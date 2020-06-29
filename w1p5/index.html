@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Latihan DOM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand">Mini Ecommerce</a>
+            <form action="#" class="form-inline" id="formItem">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search"  id="keyword" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="searchItem">Search</button>
+            </form>
+            <button class="btn btn-primary" id="cart"><i class="fas fa-shopping-cart"></i>(0)</button>
+        </nav>
+        <div class="row">
+            <div class="col-md-12 mt-2"  id="listBarang" >
+            </div>
+        </div>
+        <div class="demo"></div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        var items = [
+            ['001', 'Keyboard Logitek', 60000, 'Keyboard yang mantap untuk kantoran', 'logitek.jpg'], 
+            ['002', 'Keyboard MSI', 300000, 'Keyboard gaming MSI mekanik', 'msi.jpg'],
+            ['003', 'Mouse Genius', 50000, 'Mouse Genius biar lebih pinter', 'genius.jpeg'],
+            ['004', 'Mouse Jerry', 30000, 'Mouse yang disukai kucing', 'jerry.jpg']
+        ]
+        
+        //////////////////////////////// AWAL CURRENCY ////////////////////////////////////////////////
+        const formatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 2
+        })
+        //////////////////////////////// AKHIR CURRENCY ////////////////////////////////////////////////
+        //
+        //
+        //////////////////////////////// AWAL RELEASE 0  ////////////////////////////////////////////////
+        var hasil = ""
+        function listBarang(brg) {
+            hasil += "<div class='row'>"
+            for (var i = 0; i < brg.length; i++) {
+                hasil += "<div class='col-md-4 mt-2'>"
+                hasil += "<div class='card'>"
+                hasil += "<img src='public/img/"+brg[i][4]+"' class='card-img-top embed-responsive-item' style='object-fit:cover;height: 15vw;' alt='...'>"
+                hasil += "<div class='card-body'>"
+                hasil += "<h5 class='card-title' id='itemName'>"+brg[i][1]+"</h5>"
+                hasil += "<p class='card-text' id='itemDesc'>"+brg[i][3]+"</p>"
+                hasil += "<p class='card-text'>"+formatter.format(brg[i][2])+"</p>"
+                hasil += "<a href='#' class='btn btn-primary' onclick='addCart()' id='addCart'>Tambahkan ke keranjang</a>"
+                hasil += "</div>"
+                hasil += "</div>"
+                hasil += "</div>"
+            }
+            hasil += "</div>"
+        }
+        listBarang(items)
+        document.getElementById("listBarang").innerHTML = hasil
+        ////////////////////////////////  AKHIR RELEASE 0  ///////////////////////////////////////////////////////
+        //
+        //
+        ////////////////////////////////////// AWAL RELEASE 1 ////////////////////////////////////////////////////////////////
+        var form = document.getElementById("formItem")
+        var kata = document.getElementById("keyword")
+        form.addEventListener("submit", function(e) {
+            e.preventDefault()
+            var content = ""
+            function listCari(data){
+            content += "<div class='row'>"
+            for(var i = 0; i < data.length; i++){
+                content += "<div class='col-md-4 mt-2'>"
+                content += "<div class='card'>"
+                content += "<img src='public/img/"+data[i][4]+"' class='card-img-top embed-responsive-item' style='object-fit:cover;height: 15vw;' alt='...'>"
+                content += "<div class='card-body'>"
+                content += "<h5 class='card-title' id='itemName'>"+data[i][1]+"</h5>"
+                content += "<p class='card-text' id='itemDesc'>"+data[i][3]+"</p>"
+                content += "<p class='card-text'>"+formatter.format(data[i][2])+"</p>"
+                content += "<a href='#' class='btn btn-primary' id='addCart' onClick='addCart()'>Tambahkan ke keranjang</a>"
+                content += "</div>"
+                content += "</div>"
+                content += "</div>"
+            }
+            content += "</div>"
+        }
+            let cari = []
+            for(let i = 0; i < items.length ; i++){
+                let c = 0
+                for(let j = 0 ; j < items[i].length - 3; j++){
+                    if (items[i][j].toString().toLowerCase().indexOf(kata.value.toLowerCase()) != -1){
+                        c++
+                    }
+                    if(c > 0){
+                        cari.push(items[i])
+                    }
+                }
+            }
+            listCari(cari)
+            document.getElementById("listBarang").innerHTML = content
+        })
+        ////////////////////////////////////// AKHIR RELEASE 1 ////////////////////////////////////////////////////////////////
+        //
+        //
+        ///////////////////////////////////// AWAL RELEASE 2 //////////////////////////////////////////////////
+        function addCart() {
+            var x = document.getElementById("cart").innerText;
+            var y = x.replace(/[.](?=.*?\.)/g, '');
+            var yy = parseFloat(y.replace(/[^0-9.]/g,''));
+            for(i=0 ; i <= yy+1;i++){
+                z = yy+1
+                document.getElementById("cart").innerHTML = '<i class="fas fa-shopping-cart"></i> ('+z+')' 
+            }
+        }
+        ///////////////////////////////////// AKHIR RELEASE 2 //////////////////////////////////////////////////
+        
+    </script>
+</body>
+</html>
